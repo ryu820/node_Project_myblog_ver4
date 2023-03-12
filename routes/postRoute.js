@@ -87,7 +87,7 @@ router.post("/", authmiddleware, async (req, res , next) => {
             title,
             content
         })
-        res.json({ massage: "게시글작성에 성공하였습니다." });
+        res.json({ message: "게시글작성에 성공하였습니다." });
     } catch (err) {
         next(err)
         // return res.status(err.status || 400).json({ errorMessage: err.expect ? err.message : "게시물 작성이 실패했습니다." });
@@ -125,7 +125,7 @@ router.put("/:postId", authmiddleware, async (req, res , next) => {
         //수정 업데이트
 
         await Posts.update({ title, content },{where: { postId }})
-        return res.json({ massage: "게시글을 수정하였습니다." })
+        return res.json({ message: "게시글을 수정하였습니다." })
     } catch (err) {
         next(err)
     }

@@ -3,10 +3,14 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Comments', {
-      commentId: {
+      Id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      commentId : {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       UserId: {
