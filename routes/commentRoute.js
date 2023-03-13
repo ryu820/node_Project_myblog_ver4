@@ -80,7 +80,7 @@ router.put("/:postId/comments/:commentId", authmiddleware, async (req, res, next
 
         //게시글이 없을 때
         if (existsPosts === null) {
-            throw new CunstomError("게시글이 존재하지 않습니다", 404)
+            throw new CustomError("게시글이 존재하지 않습니다", 404)
         }
         //수정권한이 없을때
         if (userId !== existsComments.UserId) {
@@ -108,7 +108,7 @@ router.delete("/:postId/comments/:commentId", authmiddleware, async (req, res, n
 
         //게시글이 없을 때
         if (existsPosts === null) {
-            throw new CunstomError("게시글이 존재하지 않습니다", 404)
+            throw new CustomError("게시글이 존재하지 않습니다", 404)
         }
         //수정권한이 없을때
         if (userId !== existsComments.UserId) {

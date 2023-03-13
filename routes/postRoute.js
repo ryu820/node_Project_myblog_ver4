@@ -107,7 +107,7 @@ router.put("/:postId", authmiddleware, async (req, res , next) => {
         });
         //게시글이 없을 때
         if (existsPosts === null) {
-            throw new CunstomError("게시글이 존재하지 않습니다", 404)
+            throw new CustomError("게시글이 존재하지 않습니다", 404)
         }
 
         //body에 title이나 content가 포함되지 않거나 형식이 올바르지 않을 때
