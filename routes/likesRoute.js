@@ -11,6 +11,7 @@ router.post("/:postId", authmiddleware, async (req, res, next) => {
     const { userId } = res.locals.user;
     try {
         const existsLikes = await Likes.findOne({ where: { postId, userId } });
+        console.log(existsLikes)
         const existsPosts = await Posts.findOne({ where: { postId } });
         //게시글이 없을 때
         if (existsPosts === null) {

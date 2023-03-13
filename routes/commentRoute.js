@@ -16,7 +16,7 @@ router.post("/:postId/comments", authmiddleware, async (req, res, next) => {
                 where: { postId },
                 order: [['createdAt', 'DESC']]
             })
-        console.log(maxCommentId)
+        // console.log(maxCommentId)
         const commentId = maxCommentId ? maxCommentId.commentId + 1 : 1;
         //게시글이 없을 때
         if (existsPosts === null) {
