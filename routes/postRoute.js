@@ -1,5 +1,5 @@
 const express = require("express");
-const { Posts, Users } = require("../models");
+const { Posts, Users,Likes } = require("../models");
 const CustomError = require("../middlewares/errorhandler.js")
 const authmiddleware = require("../middlewares/auth-middleware.js")
 const router = express.Router();
@@ -8,26 +8,16 @@ const router = express.Router();
 router.get("/", async (req, res,next) => {
     try {
         const posts = await Posts.findAll({
-            attributes: ['postId', 'UserId', "title", "createdAt", "updatedAt"],
+            raw:true,
+            attributes: ['postId', 'UserId',"User.nickname", "title","likes", "createdAt", "updatedAt"],
             order: [['createdAt', 'DESC']],
             include: [{
                 model: Users,
-                attributes: ['nickname'],
-                required: false
-            }],
+                attributes: []
+            }]
         })
         // console.log(posts)
-        const Postlist = posts.map(post => {
-            return {
-                postId: post.postId,
-                UserId: post.UserId,
-                nickname: post.User.nickname,  // get the "name" property of the associated user
-                title: post.title,
-                createdAt: post.createdAt,
-                updatedAt: post.updatedAt
-            };
-        });
-        res.json({ posts: Postlist });
+        res.json({ posts: posts });
     } catch (err) {
         next(err)
     }
@@ -41,26 +31,15 @@ router.get("/:postId", async (req, res,next) => {
     try {
         const { postId } = req.params;
         const posts = await Posts.findOne({
-            attributes: ['postId', 'UserId', "title", "content", "createdAt", "updatedAt"],
+            raw:true,
+            attributes: ['postId', 'UserId',"User.nickname", "title", "content","likes","createdAt", "updatedAt"],
             where: { postId },
             include: [{
                 model: Users,
-                attributes: ['nickname'],
-                required: false
+                attributes: []
             }],
         })
-        // console.log(posts)
-        const Postlist = {
-            "postId": posts.postId,
-            'UserId': posts.UserId,
-            "nickname": posts.User.nickname,
-            "title": posts.title,
-            "content": posts.content,
-            "createdAt": posts.createdAt,
-            "updatedAt": posts.updatedAt
-
-        }
-        res.json({ posts: Postlist });
+        res.json({ posts: posts });
     } catch (err) {
         next(err)
     }
@@ -85,7 +64,8 @@ router.post("/", authmiddleware, async (req, res , next) => {
         const creatposts = await Posts.create({
             UserId: userId,
             title,
-            content
+            content,
+            likes : 0
         })
         res.json({ message: "게시글작성에 성공하였습니다." });
     } catch (err) {

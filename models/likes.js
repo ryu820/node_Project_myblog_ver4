@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    likes: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,

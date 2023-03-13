@@ -25,7 +25,7 @@ router.post("/:postId/comments", authmiddleware, async (req, res, next) => {
         //body 형식이 올바르지 않을 때
         if (typeof req.body.comment !== "string") {
             throw new CustomError("데이터 형식이 올바르지 않습니다.", 412)
-        } else if (!req.body.hasOwnProperty('comment')) {
+        } else if (!req.body.hasOwnProperty('comment') || comment.length ===0) {
             return res.status(200).json({ message: "댓글내용을 입력해주세요" })
         }
         await Comments.create({
@@ -81,6 +81,8 @@ router.put("/:postId/comments/:commentId", authmiddleware, async (req, res, next
         //게시글이 없을 때
         if (existsPosts === null) {
             throw new CustomError("게시글이 존재하지 않습니다", 404)
+        }else if (!req.body.hasOwnProperty('comment') || comment.length ===0) {
+            return res.status(200).json({ message: "댓글내용을 입력해주세요" })
         }
         //수정권한이 없을때
         if (userId !== existsComments.UserId) {
